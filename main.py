@@ -2,21 +2,25 @@
 import cmd
 import os
 
+
 class Game(cmd.Cmd):
-    #def __init__(self):
-    #cmd.Cmd.__init__(self)
-    try:
-        os.sysem('cls')
-    except:
-        os.system('clear')
-    os.environ['LINES'] = "25"
-    os.environ['COLUMNS'] = "4"
-    intro = "Welcome to the Text Adventure"
+    def Splash():
+        os.system('cls' if os.name=='nt' else 'clear')
+        print ("welcome")
+    intro = Splash()
     prompt  = "Action >>"
+    
+    
     def printScreen(self,text):
         os.system('cls' if os.name=='nt' else 'clear')
         print ("health")
-        print (text)  
+        print (text) 
+    def do_name(self,name):
+        '''makes the ability to change your name 
+Type name followed by your wanted name
+Exampe name player'''
+        self.prompt = str(name)+ ">>"
+        self.printScreen("")   
     def do_n(self,args):
         """Go North"""
         self.printScreen("you went north")
@@ -37,5 +41,9 @@ class Game(cmd.Cmd):
 
 
 if __name__=="__main__":
+    #Try to set width and height of screen 
+    os.popen("stty cols 80").read()
+    os.popen("stty rows 34").read()
+
     g=Game()
     g.cmdloop()
