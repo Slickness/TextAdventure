@@ -1,0 +1,25 @@
+{
+ "block":[{
+           "id":"F1",
+		   "name":"Starting area",
+		   "description":"This is where you start",
+		   "neighbours":{
+				         "n":{"id":"F2",
+						      "keyrequired":"No"}
+		                }
+         },
+         {
+           "id":"F2",
+		   "name":"Forest",
+		   "description":"walking on a path",
+		   "neighbours":{
+				         "s":{"id":"F1",
+						      "keyrequired":"No"},
+				         "n":{"id":"F1",
+						      "keyrequired":"Yes",
+						      "key":"1"
+						     }
+		                }
+         }]
+
+}

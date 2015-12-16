@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 import cmd
 import os
+from room import get_blocks
 
 
 class Game(cmd.Cmd):
@@ -8,9 +9,33 @@ class Game(cmd.Cmd):
         os.system('cls' if os.name=='nt' else 'clear')
         print ("welcome")
     intro = Splash()
+    #print (blocks)
     prompt  = "Action >>"
-    
-    
+    def __init__(self):
+        cmd.Cmd.__init__(self)
+        
+        self.blocks = get_blocks()
+        self.getRoom("F1")
+    def getRoom(self,room):
+        for x in self.blocks:
+            if x.id == room:
+                
+                self.loc = x
+
+    def move(self,dir):
+        newroom = self.loc._neighbour(dir)
+        #newroom = self.loc._neighbours(dir)
+        if newroom is None:
+            print("You can not go that way")
+        else:
+            if newroom["keyrequired"] == "No":
+                self.getRoom(newroom["id"])
+                print (self.loc.name)
+            else:
+                print ("a key is required")
+
+            #self.loc = 
+
     def printScreen(self,text):
         os.system('cls' if os.name=='nt' else 'clear')
         print ("health")
@@ -23,16 +48,16 @@ Exampe name player'''
         self.printScreen("")   
     def do_n(self,args):
         """Go North"""
-        self.printScreen("you went north")
+        self.move("n")
     def do_e(self,args):
         """Go East"""
-        print ("welcome to the east direction")
+        self.move("e")
     def do_w(self,args):
         """Go West"""
-        pass
+        self.move("w")
     def do_s(self,args):
         """Go South"""
-        pass
+        self.move("s")
     def do_quit(self, args):
         """leaves the game"""
         print ("Thank you for playing")
