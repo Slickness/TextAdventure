@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+from colors import bcolors
 import cmd
 import os
 from room import get_blocks
@@ -16,10 +17,10 @@ class Game(cmd.Cmd):
         self.player = get_player()
         self.blocks = get_blocks()
         self.getRoom("F1")
+
     def getRoom(self,room):
         for x in self.blocks:
             if x.id == room:
-                
                 self.loc = x
 
     def move(self,dir):
@@ -29,15 +30,13 @@ class Game(cmd.Cmd):
         #self.player.hp = 0
         
         if newroom is None:
-            print("You can not go that way")
+            self.printScreen("You can not go that way")
         else:
             if newroom["keyrequired"] == "No":
                 self.getRoom(newroom["id"])
                 self.printScreen(self.loc.name)
             else:
                 self.printScreen("a key is required")
-
-            #self.loc = 
 
     def printScreen(self,text):
         #call this function each time you want to print
@@ -47,15 +46,27 @@ class Game(cmd.Cmd):
             raise SystemExit 
             #self.do_quit("q")
         else:
-            print ("health " , self.player.hp, "/",self.player.maxhp,"\t", self.player.name, "\n")
+            print (bcolors.HEADER,bcolors.BACKGROUND,"health " , 
+                    self.player.hp, "/",self.player.maxhp,
+                    "     ", self.player.name,bcolors.ENDC,bcolors.ENDC,"\n")
             print (text) 
+   
+    def default(self,line):
+       self.printScreen("command no recognized")
+#       return cmd.Cmd.precmd(self,line)
+    def do_look(self,args):
+        text = self.loc.description
+        self.printScreen(text)
+
     def do_name(self,name):
-        '''makes the ability to change your name 
-Type name followed by your wanted name
-Exampe name player'''
+
+        '''makes the ability to change your name\
+        \nType name followed by your wanted name\
+        \nExample name player'''
         self.player.name = name
         self.prompt = str(name)+ ">>"
         self.printScreen("")   
+
     def do_n(self,args):
         """Go North"""
         self.move("n")
