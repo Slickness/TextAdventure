@@ -17,12 +17,12 @@ class Game(cmd.Cmd):
         self.player = get_player()
         self.blocks = get_blocks()
         self.getRoom("F1")
-
+        
     def getRoom(self,room):
         for x in self.blocks:
             if x.id == room:
                 self.loc = x
-
+        self.player.SetRoom(self.loc.id)
     def move(self,dir):
         newroom = self.loc._neighbour(dir)
         #newroom = self.loc._neighbours(dir)
@@ -34,6 +34,7 @@ class Game(cmd.Cmd):
         else:
             if newroom["keyrequired"] == "No":
                 self.getRoom(newroom["id"])
+                self.player.SetRoom(self.loc.id)
                 self.printScreen(self.loc.name)
             else:
                 self.printScreen("a key is required")
@@ -42,13 +43,15 @@ class Game(cmd.Cmd):
         #call this function each time you want to print
         os.system('cls' if os.name=='nt' else 'clear')
         if self.player.isDead():
+
+            os.system('cls' if os.name=='nt' else 'clear')
             print ("you are dead")
             raise SystemExit 
             #self.do_quit("q")
         else:
-            print (bcolors.HEADER,bcolors.BACKGROUND,"health " , 
-                    self.player.hp, "/",self.player.maxhp,
-                    "     ", self.player.name,bcolors.ENDC,bcolors.ENDC,"\n")
+            print (bcolors.HEADER,bcolors.BACKGROUND,"HEALTH " , 
+                    str(self.player.getHP()), "/",str(self.player.getMaxHP()),
+                    "     ", self.player.name,"     LEVEL ",self.player.level,"     POINTS ",self.player.points,bcolors.ENDC,bcolors.ENDC,"\n")
             print (text) 
    
     def default(self,line):
@@ -81,7 +84,8 @@ class Game(cmd.Cmd):
         self.move("s")
     def do_quit(self, args):
         """leaves the game"""
-        print ("Thank you for playing")
+
+        self.printScreen("Thank you for playing")
         return True
 
 
