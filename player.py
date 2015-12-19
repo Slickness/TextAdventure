@@ -40,7 +40,7 @@ class Player ():
         self.room = roomID
     def updateHP(self,damage):
         #update the players HP
-        #if health increases use a neg number
+        #if health increases use a neg num ber
         self.hp = self.hp - damage
     def updateMaxHP(self,newMax):
         #new max is new max number not how much to increase by
@@ -53,7 +53,18 @@ class Player ():
         return self.maxhp
     def levelUp(self):
         #increases the level of the player and increase max health
-        self.level += 1
-        self.updateMaxHP(self.getMaxHP+self.increasemaxhp)
-        self.hp = self.getMaxHP # give player max health if they level up
- 
+        print ("in level up")
+        self.level = int(self.level) + 1
+        self.updateMaxHP(int(self.getMaxHP())+int(self.increasemaxhp))
+         # give player max health if they level up
+        self.hp = int(self.getMaxHP())
+    def updatePoints(self,newPoints):
+        #update the points fo the player and determine if they level up
+        self.points += int(newPoints)
+        increase = 1
+        while increase == 1:
+            pointsForLevel = self.pointsPerLevel*self.level
+            if int(self.points) >= int(pointsForLevel):
+                self.levelUp()
+            else:
+                increase = 0

@@ -25,10 +25,8 @@ class Game(cmd.Cmd):
         self.player.SetRoom(self.loc.id)
     def move(self,dir):
         newroom = self.loc._neighbour(dir)
-        #newroom = self.loc._neighbours(dir)
-        #testing to see if isDead works
-        #self.player.hp = 0
-        
+        #check to see if newroom is in the neighbour list if not
+        #tell the user it is not a valid move and do nothing
         if newroom is None:
             self.printScreen("You can not go that way")
         else:
