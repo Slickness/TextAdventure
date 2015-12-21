@@ -18,10 +18,22 @@ class Block():
         self.name = name
         self.description = description
         self.neighbours = neighbours
+        self.items = items
     def _neighbour(self,direction):
         if direction in self.neighbours:
             return self.neighbours[direction]
         else:
             return None
+    def _item(self,item):
+        if item in self.items:
+            return self.items[item]
+        else:
+            return None
+    def removeItem(self,item):
+        #remove the itemm from the import dictionary
+        self.items.pop(item, None)
+    def returnItems(self):
+        #return a list of items in the room
+        return list(self.items.keys())
 #get_blocks()
 

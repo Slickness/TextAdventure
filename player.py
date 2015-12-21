@@ -68,3 +68,16 @@ class Player ():
                 self.levelUp()
             else:
                 increase = 0
+    def addItem(self,newItem):
+        #used to input item into dictionary
+        self.items[newItem] = True
+    def _item(self,item):
+        #check to see if the key is in the list and if it usuable
+        if item in self.items:
+            if self.items[item] == True:
+                return True
+            else:
+                return False
+        else:
+            return False
+

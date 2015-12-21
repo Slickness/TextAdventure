@@ -6,7 +6,9 @@
 		   "neighbours":{
 				         "n":{"id":"F2",
 						      "keyrequired":"No"}
-		                }
+		                },
+		   "items":{"key":["key1",10]
+		           }
          },
          {
            "id":"F2",
@@ -15,10 +17,24 @@
 		   "neighbours":{
 				         "s":{"id":"F1",
 						      "keyrequired":"No"},
-				         "n":{"id":"F1",
+				         "n":{"id":"F3",
 						      "keyrequired":"Yes",
-						      "key":"1"
+						      "key":"key1"
 						     }
 		                }
-         }]
+         },
+
+         {
+           "id":"F3",
+		   "name":"GARDEN",
+		   "description":"You entered the garden",
+		   "neighbours":{
+				         "s":{"id":"F2",
+						      "keyrequired":"Yes",
+						       "key":"key1"}
+						     }
+		                
+         }
+ 
+ ]
 }

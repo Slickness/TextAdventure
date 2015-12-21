@@ -35,7 +35,12 @@ class Game(cmd.Cmd):
                 self.player.SetRoom(self.loc.id)
                 self.printScreen(self.loc.name)
             else:
-                self.printScreen("a key is required")
+                if self.player._item(newroom["key"]):
+                    self.getRoom(newroom["id"])
+                    self.player.SetRoom(self.loc.id)
+                    self.printScreen(self.loc.name)
+                else:
+                    self.printScreen("a key is required")
 
     def printScreen(self,text):
         #call this function each time you want to print
@@ -48,17 +53,34 @@ class Game(cmd.Cmd):
             #self.do_quit("q")
         else:
             print (bcolors.HEADER,bcolors.BACKGROUND,"HEALTH " , 
-                    str(self.player.getHP()), "/",str(self.player.getMaxHP()),
-                    "     ", self.player.name,"     LEVEL ",self.player.level,"     POINTS ",self.player.points,bcolors.ENDC,bcolors.ENDC,"\n")
+                    str(self.player.getHP()), "/",
+                    str(self.player.getMaxHP()),
+                    "     ", self.player.name,
+                    "     LEVEL ",self.player.level,
+                    "     POINTS ",self.player.points,
+                    bcolors.ENDC,bcolors.ENDC,"\n")
             print (text) 
    
     def default(self,line):
        self.printScreen("command no recognized")
-#       return cmd.Cmd.precmd(self,line)
+    def do_pickup(self,args):
+        #make an update incase they enter more then one word
+        item = self.loc._item(args)
+        if item == None:
+            self.printScreen("item not there")
+        else:
+            self.player.updatePoints(item[1])
+            self.player.addItem(item[0])
+            self.loc.removeItem(args)
+            self.printScreen("you picked up a %s"%args)
     def do_look(self,args):
         text = self.loc.description
-        self.printScreen(text)
+        if len(self.loc.returnItems())>0:
+            text = text + "\nThese items look interesting:\n"
+            for item in self.loc.returnItems():
+                text = text + item + "\n"
 
+        self.printScreen(text)
     def do_name(self,name):
 
         '''makes the ability to change your name\
