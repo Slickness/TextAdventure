@@ -52,7 +52,16 @@ class Game(cmd.Cmd):
             raise SystemExit 
             #self.do_quit("q")
         else:
-            print (bcolors.HEADER,bcolors.BACKGROUND,"HEALTH " , 
+            if os.name == 'nt':
+                print ("HEALTH " , 
+                    str(self.player.getHP()), "/",
+                    str(self.player.getMaxHP()),
+                    "     ", self.player.name,
+                    "     LEVEL ",self.player.level,
+                    "     POINTS ",self.player.points,
+                    "\n")
+            else:
+                print (bcolors.HEADER,bcolors.BACKGROUND,"HEALTH " , 
                     str(self.player.getHP()), "/",
                     str(self.player.getMaxHP()),
                     "     ", self.player.name,
