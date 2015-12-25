@@ -13,8 +13,8 @@ def get_blocks():
     return locations 
 
 class Block():
-    def __init__(self,id = "",name = "A room", description = "an empty room", neighbours = {},items={}):
-        self.id = id
+    def __init__(self,ident = "",name = "A room", description = "an empty room", neighbours = {},items={}):
+        self.ident = ident
         self.name = name
         self.description = description
         self.neighbours = neighbours

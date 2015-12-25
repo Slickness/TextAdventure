@@ -1,23 +1,23 @@
 {
  "block":[{
-           "id":"F1",
+           "ident":"F1",
 		   "name":"Starting area",
 		   "description":"This is where you start",
 		   "neighbours":{
-				         "n":{"id":"F2",
+				         "n":{"ident":"F2",
 						      "keyrequired":"No"}
 		                },
 		   "items":{"key":["key1",10]
 		           }
          },
          {
-           "id":"F2",
+           "ident":"F2",
 		   "name":"Forest",
 		   "description":"walking on a path",
 		   "neighbours":{
-				         "s":{"id":"F1",
+				         "s":{"ident":"F1",
 						      "keyrequired":"No"},
-				         "n":{"id":"F3",
+				         "n":{"ident":"F3",
 						      "keyrequired":"Yes",
 						      "key":"key1"
 						     }
@@ -25,11 +25,11 @@
          },
 
          {
-           "id":"F3",
+           "ident":"F3",
 		   "name":"GARDEN",
 		   "description":"You entered the garden",
 		   "neighbours":{
-				         "s":{"id":"F2",
+				         "s":{"ident":"F2",
 						      "keyrequired":"Yes",
 						       "key":"key1"}
 						     }

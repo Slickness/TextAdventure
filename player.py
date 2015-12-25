@@ -30,10 +30,11 @@ class Player ():
         self.points = points
     def isDead(self):
         #determine if the player is dead
-        if self.hp <= 0:
-            return True
-        else:
-            return False
+        return self.hp <=0
+        #if self.hp <= 0:
+         #   return True
+        #else:
+         #   return False
     def SetRoom(self,roomID):
         # set the new room by ID and set previous rooom
         self.prevRoom = self.room
@@ -73,11 +74,11 @@ class Player ():
         self.items[newItem] = True
     def _item(self,item):
         #check to see if the key is in the list and if it usuable
-        if item in self.items:
-            if self.items[item] == True:
-                return True
-            else:
-                return False
-        else:
-            return False
-
+        #if item in self.items:
+         #   if self.items[item] == True:
+          #      return True
+           # else:
+            #    return False
+       # else:
+        #    return False
+        return self.items.get(item,False) #get the value or False

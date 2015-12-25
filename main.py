@@ -6,13 +6,13 @@ from room import get_blocks
 from player import get_player
 
 class Game(cmd.Cmd):
-    def Splash():
+    def Splash(self):
         os.system('cls' if os.name=='nt' else 'clear')
         print ("welcome")
-    intro = Splash()
-    #print (blocks)
-    prompt  = "Action >>"
     def __init__(self):
+        self.intro = self.Splash()
+        #print (blocks)
+        self.prompt  = "Action >>"
         cmd.Cmd.__init__(self)
         self.player = get_player()
         self.blocks = get_blocks()
@@ -20,24 +20,24 @@ class Game(cmd.Cmd):
         
     def getRoom(self,room):
         for x in self.blocks:
-            if x.id == room:
+            if x.ident == room:
                 self.loc = x
-        self.player.SetRoom(self.loc.id)
-    def move(self,dir):
-        newroom = self.loc._neighbour(dir)
+        self.player.SetRoom(self.loc.ident)
+    def move(self,direction):
+        newroom = self.loc._neighbour(direction)
         #check to see if newroom is in the neighbour list if not
-        #tell the user it is not a valid move and do nothing
+        #tell the user it is not a valident move and do nothing
         if newroom is None:
             self.printScreen("You can not go that way")
         else:
             if newroom["keyrequired"] == "No":
-                self.getRoom(newroom["id"])
-                self.player.SetRoom(self.loc.id)
+                self.getRoom(newroom["ident"])
+                self.player.SetRoom(self.loc.ident)
                 self.printScreen(self.loc.name)
             else:
                 if self.player._item(newroom["key"]):
-                    self.getRoom(newroom["id"])
-                    self.player.SetRoom(self.loc.id)
+                    self.getRoom(newroom["ident"])
+                    self.player.SetRoom(self.loc.ident)
                     self.printScreen(self.loc.name)
                 else:
                     self.printScreen("a key is required")
@@ -98,19 +98,18 @@ class Game(cmd.Cmd):
         self.player.name = name
         self.prompt = str(name)+ ">>"
         self.printScreen("")   
+    def do_go(self, args):
+        '''This is how you move type go followedby the direction
+        Example: go N
+        '''
+        args = args.lower().strip()
 
-    def do_n(self,args):
-        """Go North"""
-        self.move("n")
-    def do_e(self,args):
-        """Go East"""
-        self.move("e")
-    def do_w(self,args):
-        """Go West"""
-        self.move("w")
-    def do_s(self,args):
-        """Go South"""
-        self.move("s")
+        directions = ("n","s","e","w")
+
+        if args in directions:
+            self.move(args)
+        else:
+            self.default(args)
     def do_quit(self, args):
         """leaves the game"""
 
@@ -120,7 +119,7 @@ class Game(cmd.Cmd):
 
 
 if __name__=="__main__":
-    #Try to set width and height of screen 
+    #Try to set widentth and height of screen 
     #os.popen("stty cols 80").read()
     #os.popen("stty rows 34").read()
 
