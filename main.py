@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-from colors import bcolors
+import colors
 import cmd
 import os
 from room import get_blocks
@@ -17,31 +17,33 @@ class Game(cmd.Cmd):
         self.player = get_player()
         self.blocks = get_blocks()
         self.getRoom("F1")
-        
+        self.notBattle = True #if not in battle continue as normal       
     def getRoom(self,room):
         for x in self.blocks:
             if x.ident == room:
                 self.loc = x
         self.player.SetRoom(self.loc.ident)
     def move(self,direction):
-        newroom = self.loc._neighbour(direction)
-        #check to see if newroom is in the neighbour list if not
-        #tell the user it is not a valident move and do nothing
-        if newroom is None:
-            self.printScreen("You can not go that way")
-        else:
-            if newroom["keyrequired"] == "No":
-                self.getRoom(newroom["ident"])
-                self.player.SetRoom(self.loc.ident)
-                self.printScreen(self.loc.name)
+        if self.notBattle:
+            newroom = self.loc._neighbour(direction)
+            #check to see if newroom is in the neighbour list if not
+            #tell the user it is not a valident move and do nothing
+            if newroom is None:
+                self.printScreen("You can not go that way")
             else:
-                if self.player._item(newroom["key"]):
+                if newroom["keyrequired"] == "No":
                     self.getRoom(newroom["ident"])
                     self.player.SetRoom(self.loc.ident)
                     self.printScreen(self.loc.name)
                 else:
-                    self.printScreen("a key is required")
-
+                    if self.player._item(newroom["key"]):
+                        self.getRoom(newroom["ident"])
+                        self.player.SetRoom(self.loc.ident)
+                        self.printScreen(self.loc.name)
+                    else:
+                        self.printScreen("a key is required")
+        else:
+            self.default()
     def printScreen(self,text):
         #call this function each time you want to print
         os.system('cls' if os.name=='nt' else 'clear')
@@ -61,13 +63,13 @@ class Game(cmd.Cmd):
                     "     POINTS ",self.player.points,
                     "\n")
             else:
-                print (bcolors.HEADER,bcolors.BACKGROUND,"HEALTH " , 
+                print (colors.HEADER,colors.BACKGROUND,"HEALTH " , 
                     str(self.player.getHP()), "/",
                     str(self.player.getMaxHP()),
                     "     ", self.player.name,
                     "     LEVEL ",self.player.level,
                     "     POINTS ",self.player.points,
-                    bcolors.ENDC,bcolors.ENDC,"\n")
+                    colors.ENDC,colors.ENDC,"\n")
             print (text) 
    
     def default(self,line):
