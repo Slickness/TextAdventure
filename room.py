@@ -13,12 +13,17 @@ def get_blocks():
     return locations 
 
 class Block():
-    def __init__(self,ident = "",name = "A room", description = "an empty room", neighbours = {},items={}):
+    def __init__(self,ident = "",name = "A room", 
+            description = "an empty room", 
+            neighbours = {},items={},
+            hasEnemy = False,enemy=None):
         self.ident = ident
         self.name = name
         self.description = description
         self.neighbours = neighbours
         self.items = items
+        self.hasEnemy = hasEnemy
+        self.enemy = enemy
     def _neighbour(self,direction):
         if direction in self.neighbours:
             return self.neighbours[direction]
@@ -35,5 +40,8 @@ class Block():
     def returnItems(self):
         #return a list of items in the room
         return list(self.items.keys())
+    def _enemy(self):
+        return self.enemy
+
 #get_blocks()
 

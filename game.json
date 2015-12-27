@@ -32,9 +32,20 @@
 				         "s":{"ident":"F2",
 						      "keyrequired":"Yes",
 						       "key":"key1"}
-						     }
+						     },
+		   "hasEnemy":"True",
+           "enemy":"cricket"
 		                
          }
  
- ]
+ ],
+ "player":[{"name":"Jimmy",
+            "hp":100,
+            "items":{}}],
+ "enemy":[{
+           "name":"cricket",
+		   "hp":4,
+		   "attack":1,
+		   "points":50
+ }]
 }

@@ -4,7 +4,8 @@ import cmd
 import os
 from room import get_blocks
 from player import get_player
-
+from enemy import get_enemy
+import textwrap
 class Game(cmd.Cmd):
     def Splash(self):
         os.system('cls' if os.name=='nt' else 'clear')
@@ -16,13 +17,28 @@ class Game(cmd.Cmd):
         cmd.Cmd.__init__(self)
         self.player = get_player()
         self.blocks = get_blocks()
+        self.enemies = get_enemy() 
         self.getRoom("F1")
         self.notBattle = True #if not in battle continue as normal       
+    def battle(self):
+       
+        self.getEnemy(self.loc.enemy)
+        enemyInfo = "You are in a battle with " +\
+                self.eBattle.name+ " "+\
+                "with a \nHealth of " + str(self.eBattle.hp)+" "+\
+                "and \nAttack power of "+str(self.eBattle.attack)+\
+                "\nWould you like to run or attack?"
+        self.printScreen(enemyInfo)
+       #this is where all the  battle stuff will happeni
     def getRoom(self,room):
         for x in self.blocks:
             if x.ident == room:
                 self.loc = x
         self.player.SetRoom(self.loc.ident)
+    def getEnemy(self,enemy):
+        for x in self.enemies:
+            if x.name == enemy:
+                self.eBattle = x
     def move(self,direction):
         if self.notBattle:
             newroom = self.loc._neighbour(direction)
@@ -33,17 +49,23 @@ class Game(cmd.Cmd):
             else:
                 if newroom["keyrequired"] == "No":
                     self.getRoom(newroom["ident"])
-                    self.player.SetRoom(self.loc.ident)
+                    #self.player.SetRoom(self.loc.ident)
+                    #self.printScreen((self.player.room,self.player.prevRoom))
                     self.printScreen(self.loc.name)
                 else:
                     if self.player._item(newroom["key"]):
                         self.getRoom(newroom["ident"])
-                        self.player.SetRoom(self.loc.ident)
+                        #self.player.SetRoom(self.loc.ident)
                         self.printScreen(self.loc.name)
                     else:
                         self.printScreen("a key is required")
+                if self.loc.hasEnemy:
+                    #what todo for battles make a function???
+                    self.notBattle = False
+                    self.battle()
+                    
         else:
-            self.default()
+            self.default(direction)
     def printScreen(self,text):
         #call this function each time you want to print
         os.system('cls' if os.name=='nt' else 'clear')
@@ -70,7 +92,10 @@ class Game(cmd.Cmd):
                     "     LEVEL ",self.player.level,
                     "     POINTS ",self.player.points,
                     colors.ENDC,colors.ENDC,"\n")
-            print (text) 
+                for line in textwrap.wrap(text,replace_whitespace=False,
+                        width = 60):
+                    print(line)
+                print ("\n")
    
     def default(self,line):
        self.printScreen("command no recognized")
@@ -117,7 +142,19 @@ class Game(cmd.Cmd):
 
         self.printScreen("Thank you for playing")
         return True
-
+    def do_run(self,args):
+        if not self.notBattle:
+            #not working but why`
+            self.getRoom(self.player.prevRoom)
+            self.player.SetRoom(self.loc.ident)
+            self.printScreen(self.loc.name)
+        else:
+            self.default(args)
+    def do_attackn(self,args):
+        if not self.notBattle:
+            pass
+        else:
+            self.default(args)
 
 
 if __name__=="__main__":

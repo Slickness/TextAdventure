@@ -3,7 +3,7 @@ import json #to get the required file
 #'''This class will hold all player class and load player from json'''
 def get_player():
     
-    with open ("player.json","r") as f:
+    with open ("game.json","r") as f:
         jsontext = f.read()
         d = json.loads(jsontext)
        # print (d)
@@ -14,7 +14,7 @@ def get_player():
 
 class Player ():
     def __init__ (self,name ="default",hp = 100,maxhp = 100,armour = None,
-            weapon = None, items = {}, room = None, prevRoom = None,
+            weapon = 2, items = {}, room = None, prevRoom = None,
             level = 1, points = 0):
         self.pointsPerLevel = 1000 #points to increase per level
         self.increasemaxhp = 10 #amount to increase max hp by
@@ -37,7 +37,9 @@ class Player ():
          #   return False
     def SetRoom(self,roomID):
         # set the new room by ID and set previous rooom
-        self.prevRoom = self.room
+        #not working - fixed was calling the function twice
+        old = self.room
+        self.prevRoom = old
         self.room = roomID
     def updateHP(self,damage):
         #update the players HP
@@ -74,11 +76,4 @@ class Player ():
         self.items[newItem] = True
     def _item(self,item):
         #check to see if the key is in the list and if it usuable
-        #if item in self.items:
-         #   if self.items[item] == True:
-          #      return True
-           # else:
-            #    return False
-       # else:
-        #    return False
         return self.items.get(item,False) #get the value or False
