@@ -13,7 +13,8 @@ def get_player():
     return (Player(**player[0]))
 
 class Player ():
-    def __init__ (self,name ="default",hp = 100,maxhp = 100,armour = None,
+    def __init__ (self,name ="default",hp = 100,maxhp = 100,
+            armour = 0,
             weapon = 2, items = {}, room = None, prevRoom = None,
             level = 1, points = 0):
         self.pointsPerLevel = 1000 #points to increase per level
@@ -31,10 +32,6 @@ class Player ():
     def isDead(self):
         #determine if the player is dead
         return self.hp <=0
-        #if self.hp <= 0:
-         #   return True
-        #else:
-         #   return False
     def SetRoom(self,roomID):
         # set the new room by ID and set previous rooom
         #not working - fixed was calling the function twice

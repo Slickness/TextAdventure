@@ -17,3 +17,7 @@ class Enemy():
         self.points = points
     def isDead(self):
         return self.hp <=0
+    def updateHp(self,value):
+        self.hp -= value
+
+

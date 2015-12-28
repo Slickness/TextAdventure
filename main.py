@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+import sys
 import colors
 import cmd
 import os
@@ -150,9 +151,34 @@ class Game(cmd.Cmd):
             self.printScreen(self.loc.name)
         else:
             self.default(args)
-    def do_attackn(self,args):
+    def do_attack(self,args):
         if not self.notBattle:
-            pass
+            #get player and enmey health
+            self.eBattle.updateHp(self.player.weapon) 
+            #get player and enemy attack power
+            #get player armour
+            #calculate players damage update HP and armour health
+            damage = self.eBattle.attack - ((self.player.armour/100)*
+                    self.eBattle.attack)
+            self.player.updateHP(damage)
+            #check to see if player is dead
+            #if not dead go back to battle
+            #cheack to see if enemy is dead
+            #if dead award points and change battle to false
+            #and change enemy in block to false
+            if self.player.isDead():
+                self.printScreen("Oh Oh you have died! \n thank you \
+                playing")
+                sys.exit()
+            elif self.eBattle.isDead():
+                self.player.updatePoints(self.eBattle.points)
+                self.loc.hasEnemy = False
+                self.notBattle = True
+                message = ("you beat " + self.eBattle.name + 
+                        " CONGRATS")               
+                self.printScreen(message)
+            else:
+                self.battle()
         else:
             self.default(args)
 
