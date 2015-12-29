@@ -1,51 +1,39 @@
 {
- "block":[{
-           "ident":"F1",
-		   "name":"Starting area",
-		   "description":"This is where you start",
-		   "neighbours":{
-				         "n":{"ident":"F2",
-						      "keyrequired":"No"}
-		                },
-		   "items":{"key":["key1",10]
-		           }
-         },
-         {
-           "ident":"F2",
-		   "name":"Forest",
-		   "description":"walking on a path",
-		   "neighbours":{
-				         "s":{"ident":"F1",
-						      "keyrequired":"No"},
-				         "n":{"ident":"F3",
-						      "keyrequired":"Yes",
-						      "key":"key1"
-						     }
-		                }
-         },
+ "block": [{
+            "ident": "F1",
+            "name": "Starting area",
+            "description": "This is where you start",
+            "neighbours": {
+                           "n": {"ident": "F2",
+                                 "keyrequired": "No"}
+                          },
+            "items": {"key": ["key1", 10]}
+           },
+           {
+            "ident": "F2",
+            "name": "Forest",
+            "description": "walking on a path",
+            "neighbours": {"s": {"ident": "F1",
+                                 "keyrequired": "No"},
+                           "n": {"ident": "F3",
+                                 "keyrequired": "Yes",
+                                 "key": "key1"}}},
 
-         {
-           "ident":"F3",
-		   "name":"GARDEN",
-		   "description":"You entered the garden",
-		   "neighbours":{
-				         "s":{"ident":"F2",
-						      "keyrequired":"Yes",
-						       "key":"key1"}
-						     },
-		   "hasEnemy":"True",
-           "enemy":"cricket"
-		                
-         }
- 
- ],
- "player":[{"name":"Jimmy",
-            "hp":100,
-            "items":{}}],
- "enemy":[{
-           "name":"cricket",
-		   "hp":4,
-		   "attack":1,
-		   "points":50
- }]
+           {
+            "ident": "F3",
+            "name": "GARDEN",
+            "description": "You entered the garden",
+            "neighbours": {"s": {"ident": "F2",
+                                 "keyrequired": "Yes",
+                                 "key": "key1"}},
+            "hasEnemy": "True",
+            "enemy": "cricket"
+           }],
+ "player": [{"name": "Jimmy",
+             "hp": 100,
+             "items": {}}],
+ "enemy": [{"name": "cricket",
+            "hp": 4,
+            "attack": 1,
+            "points": 50}]
 }
