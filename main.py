@@ -81,6 +81,7 @@ class Game(cmd.Cmd):
                        str(self.player.getHP()), "/",
                        str(self.player.getMaxHP()),
                        "     ", self.player.name,
+                       "   ARMOUR ", self.player.armour,
                        "     LEVEL ", self.player.level,
                        "     POINTS ", self.player.points,
                        "\n")
@@ -88,6 +89,7 @@ class Game(cmd.Cmd):
                 print (colors.HEADER, colors.BACKGROUND, "HEALTH ",
                        str(self.player.getHP()), "/",
                        str(self.player.getMaxHP()),
+                       "   ARMOUR ", self.player.armour,
                        "     ", self.player.name,
                        "     LEVEL ", self.player.level,
                        "     POINTS ", self.player.points,
@@ -103,21 +105,26 @@ class Game(cmd.Cmd):
 
     def do_pickup(self, args):
         # make an update incase they enter more then one word
-        item = self.loc._item(args)
+        item = self.loc._item(args.lower())
         if item is None:
             self.printScreen("item not there")
-        else:
+        elif args.lower() == "key":
             self.player.updatePoints(item[1])
             self.player.addItem(item[0])
             self.loc.removeItem(args)
             self.printScreen("you picked up a %s" % args)
+        elif args.lower() == "armour":
+            self.player.increaseArmour(item[0])
+            self.player.updatePoints(item[1])
+            self.loc.removeItem(args)
+            self.printScreen("you picked up %s worth %d" % (args,item[0]))
 
     def do_look(self, args):
         text = self.loc.description
         if len(self.loc.returnItems()) > 0:
             text = text + "\nThese items look interesting:\n"
             for item in self.loc.returnItems():
-                text = text + item + "\n"
+                text = text + item.upper() + "\n"
         self.printScreen(text)
 
     def do_name(self, name):
@@ -151,6 +158,7 @@ class Game(cmd.Cmd):
             self.getRoom(self.player.prevRoom)
             self.player.SetRoom(self.loc.ident)
             self.printScreen(self.loc.name)
+            self.notBattle = True
         else:
             self.default(args)
 

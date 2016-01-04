@@ -81,3 +81,7 @@ class Player():
     def _item(self, item):
         # check to see if the key is in the list and if it usuable
         return self.items.get(item, False)  # get the value or False
+
+    def increaseArmour(self,armour):
+        # increase armour amoun
+        self.armour += armour

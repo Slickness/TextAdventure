@@ -7,7 +7,8 @@
                            "n": {"ident": "F2",
                                  "keyrequired": "No"}
                           },
-            "items": {"key": ["key1", 10]}
+            "items": {"key": ["key1", 10],
+			          "armour":[10,10]}
            },
            {
             "ident": "F2",
