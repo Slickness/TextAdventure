@@ -80,7 +80,7 @@ class Game(cmd.Cmd):
                 print ("HEALTH ",
                        str(self.player.getHP()), "/",
                        str(self.player.getMaxHP()),
-                       "     ", self.player.name,
+                       " WEAPON", self.player.weapon,
                        "   ARMOUR ", self.player.armour,
                        "     LEVEL ", self.player.level,
                        "     POINTS ", self.player.points,
@@ -90,7 +90,7 @@ class Game(cmd.Cmd):
                        str(self.player.getHP()), "/",
                        str(self.player.getMaxHP()),
                        "   ARMOUR ", self.player.armour,
-                       "     ", self.player.name,
+                       " WEAPON", self.player.weapon,
                        "     LEVEL ", self.player.level,
                        "     POINTS ", self.player.points,
                        colors.ENDC, colors.ENDC, "\n")
@@ -118,6 +118,11 @@ class Game(cmd.Cmd):
             self.player.updatePoints(item[1])
             self.loc.removeItem(args)
             self.printScreen("you picked up %s worth %d" % (args,item[0]))
+        elif args.lower() == "weapn":
+            self.player.increaseWeapon(item[0])
+            self.player.updatePoints(item[1])
+            self.loc.removeItem(args)
+            self.printScreen("you picked up an increased %s word %d" %(args,item[0]))
 
     def do_look(self, args):
         text = self.loc.description

@@ -42,6 +42,7 @@ class Player():
         # update the players HP
         # if health increases use a neg num ber
         self.hp = self.hp - damage
+        self.hp = int(self.hp)
 
     def updateMaxHP(self, newMax):
         # new max is new max number not how much to increase by
@@ -83,5 +84,9 @@ class Player():
         return self.items.get(item, False)  # get the value or False
 
     def increaseArmour(self,armour):
-        # increase armour amoun
+        # increase armour amount
         self.armour += armour
+
+    def increaseWeapon(self,weapon):
+        # increase weapon amount
+        self.weapon += weapon
