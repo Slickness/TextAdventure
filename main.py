@@ -12,7 +12,7 @@ import textwrap
 class Game(cmd.Cmd):
     def Splash(self):
         os.system('cls' if os.name == 'nt' else 'clear')
-        print ("welcome")
+        print ("welcome, type help to get some instructions.")
 
     def __init__(self):
         self.intro = self.Splash()
@@ -28,17 +28,17 @@ class Game(cmd.Cmd):
 
         self.getEnemy(self.loc.enemy)
         enemyInfo = "You are in a battle with " +\
-                    self.eBattle.name + " " +\
-                    "with a \nHealth of " + str(self.eBattle.hp) + " " +\
-                    "and \nAttack power of " + str(self.eBattle.attack) +\
-                    "\nWould you like to run or attack?"
+        self.eBattle.name + " " +\
+        "with a \nHealth of " + str(self.eBattle.hp) + " " +\
+        "and \nAttack power of " + str(self.eBattle.attack) +\
+        "\nWould you like to run or attack?"
         self.printScreen(enemyInfo)
 
     def getRoom(self, room):
         for x in self.blocks:
             if x.ident == room:
                 self.loc = x
-        self.player.SetRoom(self.loc.ident)
+                self.player.SetRoom(self.loc.ident)
 
     def getEnemy(self, enemy):
         for x in self.enemies:
@@ -50,23 +50,23 @@ class Game(cmd.Cmd):
             newroom = self.loc._neighbour(direction)
             # check to see if newroom is in the neighbour list if not
             # tell the user it is not a valident move and do nothing
-            if newroom is None:
-                self.printScreen("You can not go that way")
+        if newroom is None:
+            self.printScreen("You can not go that way")
+        else:
+            if newroom["keyrequired"] == "No":
+                self.getRoom(newroom["ident"])
+                self.printScreen(self.loc.name)
             else:
-                if newroom["keyrequired"] == "No":
+                if self.player._item(newroom["key"]):
                     self.getRoom(newroom["ident"])
                     self.printScreen(self.loc.name)
                 else:
-                    if self.player._item(newroom["key"]):
-                        self.getRoom(newroom["ident"])
-                        self.printScreen(self.loc.name)
-                    else:
-                        self.printScreen("a key is required")
+                    self.printScreen("a key is required")
                 if self.loc.hasEnemy:
                     self.notBattle = False
                     self.battle()
-        else:
-            self.default(direction)
+                else:
+                    self.default(direction)
 
     def printScreen(self, text):
         # call this function each time you want to print
@@ -78,30 +78,31 @@ class Game(cmd.Cmd):
         else:
             if os.name == 'nt':
                 print ("HEALTH ",
-                       str(self.player.getHP()), "/",
-                       str(self.player.getMaxHP()),
-                       " WEAPON", self.player.weapon,
-                       "   ARMOUR ", self.player.armour,
-                       "     LEVEL ", self.player.level,
-                       "     POINTS ", self.player.points,
-                       "\n")
+                str(self.player.getHP()), "/",
+                str(self.player.getMaxHP()),
+                " WEAPON", self.player.weapon,
+                "   ARMOUR ", self.player.armour,
+                "     LEVEL ", self.player.level,
+                "     POINTS ", self.player.points,
+                "\n")
+                for line in textwrap.wrap(text, replace_whitespace=False, width=60):
+                    print(line)
+                    print ("\n")
             else:
                 print (colors.HEADER, colors.BACKGROUND, "HEALTH ",
-                       str(self.player.getHP()), "/",
-                       str(self.player.getMaxHP()),
-                       "   ARMOUR ", self.player.armour,
-                       " WEAPON", self.player.weapon,
-                       "     LEVEL ", self.player.level,
-                       "     POINTS ", self.player.points,
-                       colors.ENDC, colors.ENDC, "\n")
-                for line in textwrap.wrap(text,
-                                          replace_whitespace=False,
-                                          width=60):
+                str(self.player.getHP()), "/",
+                str(self.player.getMaxHP()),
+                "   ARMOUR ", self.player.armour,
+                " WEAPON", self.player.weapon,
+                "     LEVEL ", self.player.level,
+                "     POINTS ", self.player.points,
+                colors.ENDC, colors.ENDC, "\n")
+                for line in textwrap.wrap(text, replace_whitespace=False, width=60):
                     print(line)
-                print ("\n")
+                    print ("\n")
 
     def default(self, line):
-        self.printScreen("command no recognized")
+        self.printScreen("command not recognized")
 
     def do_pickup(self, args):
         # make an update incase they enter more then one word
@@ -150,6 +151,8 @@ class Game(cmd.Cmd):
         if args in directions:
             self.move(args)
         else:
+            # THIS LINE DOESNT MAKE SENSE, and if the user can't go North
+            # instead of "you cant go that way" you get "command not recognized"
             self.default(args)
 
     def do_quit(self, args):
@@ -175,7 +178,7 @@ class Game(cmd.Cmd):
             # get player armour
             # calculate players damage update HP and armour health
             damage = self.eBattle.attack - ((self.player.armour / 100) *
-                                            self.eBattle.attack)
+            self.eBattle.attack)
             self.player.updateHP(damage)
             # check to see if player is dead
             # if not dead go back to battle
@@ -191,7 +194,7 @@ class Game(cmd.Cmd):
                 self.loc.hasEnemy = False
                 self.notBattle = True
                 message = ("you beat " + self.eBattle.name +
-                           " CONGRATS")
+                " CONGRATS")
                 self.printScreen(message)
             else:
                 self.battle()
