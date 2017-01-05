@@ -2,7 +2,7 @@
  "block": [{
             "ident": "F1",
             "name": "Starting area",
-            "description": "This is where you start",
+            "description": "This is where you start. Obvious exits are North.",
             "neighbours": {
                            "n": {"ident": "F2",
                                  "keyrequired": "No"}
@@ -13,7 +13,7 @@
            {
             "ident": "F2",
             "name": "Forest",
-            "description": "walking on a path",
+            "description": "You are walking on a forrest path. To your left and right are tall pines which are home to many creatures. Obvious exits are North and South.",
             "neighbours": {"s": {"ident": "F1",
                                  "keyrequired": "No"},
                            "n": {"ident": "F3",
@@ -23,7 +23,7 @@
            {
             "ident": "F3",
             "name": "GARDEN",
-            "description": "You entered the garden",
+            "description": "You entered the garden, to your left are rows of orange tulips. On your right the babble of a small fountain provides a sense of tranquility.",
             "neighbours": {"s": {"ident": "F2",
                                  "keyrequired": "Yes",
                                  "key": "key1"}},
